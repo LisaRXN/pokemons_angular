@@ -9,44 +9,66 @@ export class MonsterService {
 
   monsters: Monster[] = []
 
-  currentIndex: number = 1;
+  currentIndex: number = 0;
 
-  constructor() { 
+  constructor() {
+    this.load()
+  }
 
+  private save(){
+    localStorage.setItem('monsters', JSON.stringify(this.monsters))
+  }
+
+  private load(){
+    const monsterData = localStorage.getItem('monsters')
+    if( monsterData){
+      this.monsters = JSON.parse( monsterData).map( (monsterJSON:any) => Object.assign( new Monster(), monsterJSON))
+      this.currentIndex = Math.max(...this.monsters.map(monster => monster.id))
+    }else{
+      this.init()
+      this.save()
+    }
+
+  }
+
+  private init(){
     this.monsters = [];
 
-      const monster1 = new Monster();
-      monster1.name = "Pik";
-      monster1.image = "/img/monster1.png"
-      monster1.type = MonsterType.ELECTRIC
-      monster1.hp = 20;
-      monster1.figureCaption = "N°001 Pik"
-      this.monsters.push(monster1)
-  
-      const monster2 = new Monster();
-      monster2.name = "Psyduch";
-      monster2.image = "/img/psyduck.png"
-      monster2.type = MonsterType.WATER
-      monster2.hp = 60;
-      monster2.figureCaption = "N°002 Psyduck"
-      this.monsters.push(monster2)
-  
-      const monster3 = new Monster();
-      monster3.name = "Bulbasaur";
-      monster3.image = "/img/bulbasaur.png"
-      monster3.type = MonsterType.PLANT
-      monster3.hp = 20;
-      monster3.figureCaption = "N°Growlithe003 Bulb"
-      this.monsters.push(monster3)
-  
-      const monster4 = new Monster();
-      monster4.name = "Growlithe";
-      monster4.image = "/img/monster3.png"
-      monster4.type = MonsterType.FIRE
-      monster4.hp = 80;
-      monster4.figureCaption = "N°004 Growlithe"
-      this.monsters.push(monster4)
+    const monster1 = new Monster();
+    monster1.id = this.currentIndex++;
+    monster1.name = "Pik";
+    monster1.image = "/img/monster1.png"
+    monster1.type = MonsterType.ELECTRIC
+    monster1.hp = 20;
+    monster1.figureCaption = "N°001 Pik"
+    this.monsters.push(monster1)
 
+    const monster2 = new Monster();
+    monster2.id = this.currentIndex++;
+    monster2.name = "Psyduch";
+    monster2.image = "/img/psyduck.png"
+    monster2.type = MonsterType.WATER
+    monster2.hp = 60;
+    monster2.figureCaption = "N°002 Psyduck"
+    this.monsters.push(monster2)
+
+    const monster3 = new Monster();
+    monster3.id = this.currentIndex++;
+    monster3.name = "Bulbasaur";
+    monster3.image = "/img/bulbasaur.png"
+    monster3.type = MonsterType.PLANT
+    monster3.hp = 20;
+    monster3.figureCaption = "N°Growlithe003 Bulb"
+    this.monsters.push(monster3)
+
+    const monster4 = new Monster();
+    monster4.id = this.currentIndex++;
+    monster4.name = "Growlithe";
+    monster4.image = "/img/monster3.png"
+    monster4.type = MonsterType.FIRE
+    monster4.hp = 80;
+    monster4.figureCaption = "N°004 Growlithe"
+    this.monsters.push(monster4)
   }
 
   getAll(): Monster[]{
@@ -65,6 +87,7 @@ export class MonsterService {
     monsterCopy.id = this.currentIndex 
     this.monsters.push( monsterCopy.copy())
     this.currentIndex++;
+    this.save();
 
     return monsterCopy;
   }
@@ -76,8 +99,9 @@ export class MonsterService {
 
     if(monsterIndex != -1){
       this.monsters[monsterIndex] = monsterCopy.copy()
+      this.save()
     }
-    
+
     return monsterCopy;
   }
 
@@ -86,6 +110,7 @@ export class MonsterService {
 
     if(monsterIndex != -1){
       this.monsters.splice(monsterIndex, 1)
+      this.save()
     }
 
   }

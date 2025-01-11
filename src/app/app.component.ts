@@ -18,16 +18,21 @@ export class AppComponent {
 
   monsterService = inject(MonsterService)
 
-  monsters!: Monster[];
-
+  monsters = signal<Monster[]>([])
   search = model('')
 
   filterMonsters = computed( ()=> {
-    return this.monsters.filter( monster => monster.name.toLocaleLowerCase().includes(this.search()))
+    return this.monsters().filter( monster => monster.name.toLocaleLowerCase().includes(this.search()))
   })
 
   constructor(){
-    this.monsters = this.monsterService.getAll()
+    this.monsters.set( this.monsterService.getAll() )
   }
   
+
+  addMonster(){
+    const genericMonster = new Monster()
+    this.monsterService.add(genericMonster)
+    this.monsters.set( this.monsterService.getAll() )
+  }
 }
