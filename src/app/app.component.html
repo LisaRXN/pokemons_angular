@@ -1,18 +1,19 @@
 <app-search-bar [(search)]="search" />
 
 <div id="card-list">
-    @for( monster of filterMonsters(); track monster ){
+    @for( monster of filterMonsters(); track monster; let i=$index ){
         <app-playing-card [monster]="monster"/>
     }
-</div>
+    @empty {
+        <div class="center">No monsters found</div>
 
-@if( filterMonsters().length==0 ){
-    <div class="center">No monsters found</div>
-}
-@else if (filterMonsters().length==1) {
+    }
+</div> 
+
+@if (filterMonsters().length==1) {
     <div class="center">Found {{filterMonsters().length}} monster !</div>
 }
-@else{
+@else if(filterMonsters().length > 1){
     <div class="center">Found {{filterMonsters().length}} monsters !</div>
 }
 
