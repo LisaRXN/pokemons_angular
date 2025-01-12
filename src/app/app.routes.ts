@@ -22,9 +22,9 @@ export const routes: Routes = [
         path: ':id',
         component: MonsterComponent,
     }]
-  },
-  {
-    path: "**",
-    component: NotFoundComponent
   }
+  // {
+  //   path: "**",
+  //   component: NotFoundComponent
+  // }
 ];
