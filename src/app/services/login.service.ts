@@ -42,7 +42,7 @@ export class LoginService {
 
   getUsers(): Observable<User | null | undefined>{
     return this.http
-    .get(this.BASE_URL + '/auth/me/')
+    .get(this.BASE_URL + '/auth/me')
     .pipe(
       tap( (result: any) => {
         const user = Object.assign( new User(), result )
