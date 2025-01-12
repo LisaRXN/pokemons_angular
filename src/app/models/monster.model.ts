@@ -1,6 +1,7 @@
+import { IMonster } from "../interfaces/monster.interface";
 import { MonsterType } from "../utils/monster.utils";
 
-export class Monster {
+export class Monster implements IMonster {
 
       id: number = -1;
       name: string = "My Monster";
@@ -14,5 +15,15 @@ export class Monster {
 
       copy(): Monster{
             return Object.assign( new Monster(), this)
+      }
+
+      static fromJson( monsterJson: IMonster){
+            return Object.assign( new Monster(), monsterJson)
+      }
+
+      toJson(): IMonster{
+            const monsterJson: IMonster = Object.assign( {}, this)
+            delete monsterJson.id
+            return monsterJson
       }
 }

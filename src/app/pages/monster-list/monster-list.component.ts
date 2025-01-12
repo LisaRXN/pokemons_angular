@@ -6,6 +6,7 @@ import { MonsterService } from "../../services/monster/monster.service"
 import { Monster } from "../../models/monster.model"
 import { Router } from "@angular/router"
 import { MatButtonModule } from "@angular/material/button"
+import { toSignal } from "@angular/core/rxjs-interop"
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,13 @@ export class MonsterListComponent {
 
   router = inject(Router)
   monsterService = inject(MonsterService)
-
-  monsters = signal<Monster[]>([])
   search = model('')
+  
+  // monsters = toSignal(this.monsterService.getAll())   //convertit l'Observable récupéré par l'api en signal
+  monsters = signal<Monster[]>([])
 
   filterMonsters = computed( ()=> {
-    return this.monsters().filter( monster => monster.name.toLocaleLowerCase().includes(this.search()))
+    return this.monsters()?.filter( monster => monster.name.toLocaleLowerCase().includes(this.search())) ?? []
   })
 
   constructor(){
