@@ -78,7 +78,6 @@ export class MonsterService {
 
   getAll(): Monster[]{
     return this.monsters.map( monster => monster.copy())
-
   }
 
   get(id: number): Monster | undefined{
@@ -88,7 +87,7 @@ export class MonsterService {
   
   add(monster: Monster): Monster{
     const monsterCopy = monster.copy()
-
+    
     monsterCopy.id = this.currentIndex 
     this.monsters.push( monsterCopy.copy())
     this.currentIndex++;

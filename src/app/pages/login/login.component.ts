@@ -51,4 +51,9 @@ export class LoginComponent implements OnDestroy{
     this.router.navigate(['home'])
   }
 
+  navigateRegister(){
+    this.router.navigate(['register'])
+
+  }
+
 }

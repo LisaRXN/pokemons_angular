@@ -32,7 +32,6 @@ export class MonsterListComponent {
   constructor(){
     this.monsters.set( this.monsterService.getAll() )
   }
-  
 
   addMonster(){
     this.router.navigate(['monster'])

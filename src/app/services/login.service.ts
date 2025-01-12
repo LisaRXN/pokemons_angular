@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 export interface Credentials {
@@ -15,6 +16,7 @@ export interface Credentials {
 })
 export class LoginService {
 
+  private router = inject(Router)
   private http = inject(HttpClient)
   private BASE_URL = 'http://localhost:3000/pokemons'
 
@@ -37,6 +39,17 @@ export class LoginService {
         return user;
       })
     )
+  }
+  
+  register(credentials: Credentials): Observable<User | null | undefined> {
+    console.log('Envoi de la requête avec credentials :', credentials);
+
+    return this.http.post(this.BASE_URL + '/auth/register', credentials).pipe(
+      tap((result: any) => {
+        console.log('Réponse de l\'API :', result);
+        this.router.navigate(['login']);
+      })
+    );
   }
   
 
